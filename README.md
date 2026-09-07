@@ -1,5 +1,10 @@
 # trackaudit
 
+[![PyPI](https://img.shields.io/pypi/v/trackaudit)](https://pypi.org/project/trackaudit/)
+[![tests](https://github.com/Naseem48/trackaudit/actions/workflows/ci.yml/badge.svg)](https://github.com/Naseem48/trackaudit/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/pypi/pyversions/trackaudit)](https://pypi.org/project/trackaudit/)
+[![License](https://img.shields.io/pypi/l/trackaudit)](LICENSE)
+
 **Find out what your music library is actually missing.**
 
 Your library manager says you have everything. It is measuring you against its
