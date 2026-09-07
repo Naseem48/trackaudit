@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Add a title pair directly
+    url: https://github.com/Naseem48/trackaudit/blob/main/CONTRIBUTING.md
+    about: The fastest way to fix a wrong match is a three-line pull request to tests/corpus.json.
+  - name: Ask a question
+    url: https://github.com/Naseem48/trackaudit/discussions
+    about: Not sure whether something is a bug? Ask here.

@@ -1,0 +1,86 @@
+# Publish to PyPI on a version tag, using Trusted Publishing.
+#
+# There is no API token anywhere in this repository, and none needs to exist.
+# PyPI verifies a short-lived OpenID Connect token minted by GitHub for this
+# exact workflow in this exact repository, so there is no long-lived secret to
+# leak, rotate, or accidentally commit.
+#
+# One-time setup, done once on pypi.org by the project owner:
+#   https://pypi.org/manage/account/publishing/
+#     PyPI project name : trackaudit
+#     Owner             : Naseem48
+#     Repository name   : trackaudit
+#     Workflow name     : publish.yml
+#     Environment name  : pypi
+#
+# To release:
+#   1. bump `version` in pyproject.toml and __version__ in src/trackaudit/__init__.py
+#   2. git tag v0.1.0 && git push --tags
+#
+# The tag must match the version in pyproject.toml; the job below refuses to
+# publish if they disagree, because a mismatched release cannot be undone -
+# PyPI does not allow re-uploading a version, ever.
+
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade build twine
+
+      - name: Refuse to publish if the tag and the version disagree
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          tag="${GITHUB_REF#refs/tags/v}"
+          version=$(python -c "import tomllib,pathlib; print(tomllib.loads(pathlib.Path('pyproject.toml').read_text())['project']['version'])")
+          echo "tag=$tag pyproject=$version"
+          if [ "$tag" != "$version" ]; then
+            echo "::error::tag v$tag does not match pyproject version $version"
+            exit 1
+          fi
+
+      - name: Run the tests one last time
+        run: |
+          python -m pip install -e ".[dev]"
+          python -m pytest -q
+
+      - name: Build
+        run: python -m build
+
+      - name: Check the metadata renders on PyPI
+        run: python -m twine check --strict dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/trackaudit
+    permissions:
+      id-token: write        # required for Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

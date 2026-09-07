@@ -1,0 +1,55 @@
+name: Suggestion
+description: An idea, a new catalogue or library manager, or a change to how something works
+title: "[idea] "
+labels: ["suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas are welcome, including ones that disagree with how the tool works
+        today. Two things are settled, though, and a suggestion that requires
+        changing them is unlikely to land:
+
+        - **Nobody hosts this.** No server, no accounts, no service anyone
+          depends on. It runs on the user's machine.
+        - **It never guesses when guessing moves a file.** "Uncertain" is a
+          valid answer and always will be.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is the problem
+      description: >
+        What are you actually trying to find out about your library that you
+        cannot today? Describing the problem is more useful than describing the
+        feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you have in mind
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - A new catalogue provider (something other than Deezer)
+        - A new library manager (something other than Lidarr)
+        - A new kind of finding
+        - The report
+        - The matcher's behaviour
+        - Something else
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: offer
+    attributes:
+      label: Optional
+      options:
+        - label: I would be willing to work on this.

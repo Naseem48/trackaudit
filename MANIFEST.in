@@ -1,0 +1,10 @@
+# The corpus is data the tests need; without it an sdist build cannot run its
+# own test suite. scripts/ carries the corpus validator that CI runs.
+include LICENSE
+include README.md
+include CONTRIBUTING.md
+include tests/corpus.json
+include scripts/*.py
+recursive-include examples *.yml
+prune build
+prune dist

@@ -1,0 +1,53 @@
+name: Bug
+description: Something crashed, or the report is wrong in a way that is not about title matching
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For a wrong *title match*, please use the "Wrong match" template
+        instead — it captures the right details and becomes a test case.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: The command you ran
+      description: >
+        Please redact your API key. Everything else is useful, especially
+        `--path-map`.
+      render: shell
+      placeholder: trackaudit --library /mnt/music --lidarr http://localhost:8686 --path-map /music:/mnt/music
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Output or traceback
+      render: shell
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`trackaudit --version`, and your Python version and OS."
+      placeholder: trackaudit 0.1.0, Python 3.12, Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: sanity
+    attributes:
+      label: Worth ruling out first
+      options:
+        - label: If a lot of files show as "Not in the library", I checked that `--path-map` matches how my library manager sees the paths.
+        - label: My library root contains one folder per artist.

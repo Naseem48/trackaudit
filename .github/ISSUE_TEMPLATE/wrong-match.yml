@@ -1,0 +1,84 @@
+name: Wrong match
+description: trackaudit called two titles the same when they are not, or missed a match
+title: "[match] "
+labels: ["matching", "corpus"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the most useful report you can file, and the one this project
+        most wants. The cases trackaudit gets wrong are the ones nobody thought
+        to test — a stylised spelling, a label's naming habit, a convention in a
+        language the author does not speak.
+
+        **You do not need to fix anything.** Filling this in is a complete
+        contribution: it becomes a test case, and the test case stops anyone
+        regressing it later.
+
+        If you would rather skip the form, adding the pair straight to
+        [`tests/corpus.json`](https://github.com/Naseem48/trackaudit/blob/main/tests/corpus.json)
+        as a pull request is just as welcome — see
+        [CONTRIBUTING.md](https://github.com/Naseem48/trackaudit/blob/main/CONTRIBUTING.md).
+
+  - type: input
+    id: title_a
+    attributes:
+      label: First title
+      description: Copy it exactly, including brackets, punctuation and accents.
+      placeholder: Hafenmelodie
+    validations:
+      required: true
+
+  - type: input
+    id: title_b
+    attributes:
+      label: Second title
+      placeholder: Hafenmelodie (Slowed + Reverb)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: expected
+    attributes:
+      label: What should the answer be?
+      options:
+        - different — these are distinct recordings, or distinct songs
+        - same — one file legitimately satisfies both entries
+        - uncertain — a human should decide; the tool must not guess
+    validations:
+      required: true
+
+  - type: dropdown
+    id: got
+    attributes:
+      label: What did trackaudit say?
+      description: |
+        Check with:
+        `python -c "from trackaudit import compare; print(compare('A','B'))"`
+      options:
+        - different
+        - same
+        - uncertain
+        - not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: >
+        One sentence. This becomes the `why` field in the corpus, so it should
+        explain the rule, not just this pair.
+      placeholder: A slowed edit is a separate recording.
+    validations:
+      required: true
+
+  - type: input
+    id: artist
+    attributes:
+      label: Artist and language (optional)
+      description: >
+        Helps enormously. Most gaps are language-specific conventions, and the
+        author only reads a couple of languages.
+      placeholder: Samra — German
