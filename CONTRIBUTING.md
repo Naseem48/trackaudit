@@ -75,6 +75,36 @@ counting it repeatedly overstates what is missing.
   inside the container. Without translation, an entire library reads as
   unmanaged.
 
+## Why the matcher looks like that
+
+`match.py` is full of rules that look over-specific until you know what they
+are for. Each one below is a real bug, found by running against a real library,
+and each is pinned by a test. **If a test here fails, assume the change is
+wrong before assuming the test is.**
+
+- **`normalize()` is not an identity.** It strips brackets, so "Rockin' in the
+  Free World", "(edit)", "(live)" and "(LP version)" all collapse to one
+  string. Group and index by `identity()`, never by `normalize()`.
+- **Compare the whole qualifying phrase, not the keyword.** Matching only the
+  keyword made "(Part 1)" and "(Part 2)" identical — both merely "part" — which
+  let one album track satisfy two separate catalogue entries.
+- **Qualifiers count only where they can be appended**, i.e. in brackets or
+  after a trailing dash. Scan the whole title and the song *Live Is Life* is
+  reported as a live recording.
+- **Strip track numbers narrowly.** The obvious regex turns "95 BPM" into "BPM"
+  and "365 Tage" into "Tage", and both then read as missing.
+- **Generic titles collide across artists.** Searching the whole library is what
+  catches a collaboration filed under whoever was credited first — but every rap
+  album has an "Intro", so a match outside the artist's own folder proves
+  nothing. See `GENERIC_TITLES`.
+- **Duration can veto a title match.** A radio edit and the album cut often
+  share a title exactly.
+
+One more, which costs an hour if you meet it cold: **a `\b` in a regex can
+arrive as a literal backspace byte** if the file was written through a shell
+heredoc. If a pattern mysteriously never matches, check it with
+`grep … | cat -A` before rewriting it.
+
 ## Principles
 
 1. **Never guess when guessing moves a file.** `uncertain` costs nothing; a

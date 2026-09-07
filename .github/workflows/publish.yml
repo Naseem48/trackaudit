@@ -83,4 +83,12 @@ jobs:
         with:
           name: dist
           path: dist/
+      # skip-existing makes re-running this workflow on an existing tag a
+      # no-op rather than a red build. PyPI never allows re-uploading a
+      # version, so any re-trigger - a retagged release, a rewritten history,
+      # a manual dispatch - would otherwise fail at the upload step for a
+      # reason that is not a problem. A genuine version bump is unaffected:
+      # the file does not exist yet, so it uploads normally.
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
