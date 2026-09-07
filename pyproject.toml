@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trackaudit"
+version = "0.1.0"
+description = "Find out what your music library is actually missing."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["music", "library", "lidarr", "flac", "audit", "navidrome", "beets"]
+authors = [{ name = "Naseem" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Sound/Audio",
+  "Topic :: System :: Archiving",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Naseem48/trackaudit"
+Issues = "https://github.com/Naseem48/trackaudit/issues"
+
+[project.scripts]
+trackaudit = "trackaudit.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

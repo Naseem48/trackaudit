@@ -1,0 +1,74 @@
+# Publish a weekly audit to YOUR OWN GitHub Pages.
+#
+# Copy this to .github/workflows/audit.yml in a repository of your own, then
+# enable Pages under Settings -> Pages -> Source: GitHub Actions.
+#
+# This only makes sense if your library is reachable from the runner - i.e. you
+# use a self-hosted runner on the machine that holds the music. A GitHub-hosted
+# runner cannot see your disk, and you should not expose your library manager to
+# the internet to work around that.
+#
+# For most people the simpler answer is a cron entry on the machine itself:
+#
+#     19 6 * * 1  trackaudit --library /mnt/music --out /var/www/audit.html
+#
+# Nothing here sends your data anywhere. The report is built on your runner and
+# published to your own Pages site.
+
+name: library audit
+
+on:
+  schedule:
+    - cron: "19 6 * * 1"   # Mondays, 06:19 UTC
+  workflow_dispatch:        # ...and whenever you click the button
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: self-hosted    # must be the machine that can see your library
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install trackaudit
+        run: python -m pip install --upgrade trackaudit
+
+      - name: Run the audit
+        env:
+          LIDARR_API_KEY: ${{ secrets.LIDARR_API_KEY }}
+        run: |
+          mkdir -p site
+          trackaudit \
+            --library "$MUSIC_ROOT" \
+            --lidarr "$LIDARR_URL" \
+            --path-map "$PATH_MAP" \
+            --out site/index.html \
+            --json site/audit.json \
+            --quiet
+        # Set these as repository variables (Settings -> Secrets and variables):
+        #   MUSIC_ROOT   /mnt/music
+        #   LIDARR_URL   http://localhost:8686
+        #   PATH_MAP     /music:/mnt/music
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: audit
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

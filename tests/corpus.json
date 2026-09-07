@@ -1,0 +1,189 @@
+{
+  "_comment": [
+    "Real-world title pairs and how they must be judged.",
+    "",
+    "This is the most valuable file in the repository. Every entry is a case",
+    "that a matcher can plausibly get wrong, and most were paid for by an",
+    "actual mis-filed library.",
+    "",
+    "Adding a case is the easiest useful contribution you can make: append an",
+    "object with `a`, `b`, `verdict` and a short `why`. See CONTRIBUTING.md.",
+    "",
+    "verdict is one of: same, different, uncertain",
+    "  same       one file satisfies both entries",
+    "  different  these are distinct recordings, or distinct songs",
+    "  uncertain  a human or a catalogue lookup is needed; never guess"
+  ],
+
+  "cases": [
+    {
+      "a": "Who Wants to Live Forever",
+      "b": "Who Wants to Live Forever (Live in Budapest)",
+      "verdict": "different",
+      "why": "a live recording is not the studio take"
+    },
+    {
+      "a": "Live Is Life",
+      "b": "Live Is Life",
+      "verdict": "same",
+      "why": "the word live is in the title itself, not a qualifier"
+    },
+    {
+      "a": "Let There Be Rock (Part 1)",
+      "b": "Let There Be Rock (Part 2)",
+      "verdict": "different",
+      "why": "two parts of a track are two recordings"
+    },
+    {
+      "a": "Let There Be Rock",
+      "b": "Let There Be Rock (Part 1)",
+      "verdict": "different",
+      "why": "the combined version is neither part"
+    },
+    {
+      "a": "Weiße Orchideen",
+      "b": "Weisse Orchideen",
+      "verdict": "same",
+      "why": "sharp s transliteration differs between catalogues"
+    },
+    {
+      "a": "5 Songs in einer Nacht",
+      "b": "5 Songs In Einer Nacht",
+      "verdict": "same",
+      "why": "capitalisation only"
+    },
+    {
+      "a": "95 BPM",
+      "b": "365 Tage",
+      "verdict": "different",
+      "why": "both open with a number; a greedy track-number strip makes these BPM and Tage"
+    },
+    {
+      "a": "Neymar",
+      "b": "Neymar (feat. Ufo361)",
+      "verdict": "same",
+      "why": "a featured credit does not change the recording"
+    },
+    {
+      "a": "Cataleya",
+      "b": "Cataleya (Remix)",
+      "verdict": "different",
+      "why": "a remix is a separate recording"
+    },
+    {
+      "a": "Rockin' in the Free World (edit)",
+      "b": "Rockin' in the Free World (live)",
+      "verdict": "different",
+      "why": "different qualifiers on the same song"
+    },
+    {
+      "a": "Mansion on the Hill (single version)",
+      "b": "Mansion on the Hill (album version)",
+      "verdict": "different",
+      "why": "single and album cuts differ"
+    },
+    {
+      "a": "Bohemian Rhapsody",
+      "b": "Bohemian Rhapsody - Remastered 2011",
+      "verdict": "different",
+      "why": "a remaster is a distinct file even though it is the same performance"
+    },
+    {
+      "a": "Sonne über Berlin",
+      "b": "Sonne ueber Berlin",
+      "verdict": "same",
+      "why": "umlaut spelled out"
+    },
+    {
+      "a": "Intro",
+      "b": "Outro",
+      "verdict": "different",
+      "why": "short generic titles must not collapse together"
+    },
+    {
+      "a": "Intro",
+      "b": "Intro",
+      "verdict": "same",
+      "why": "generic titles still match themselves; artist scoping is the caller's job"
+    },
+    {
+      "a": "Tage wie diese",
+      "b": "Tage",
+      "verdict": "different",
+      "why": "a prefix is not a match"
+    },
+    {
+      "a": "BENZIN IM BLUT (RED BULL 64 BARS)",
+      "b": "Benzin im Blut (Red Bull 64 Bars)",
+      "verdict": "same",
+      "why": "case only, and the bracket is not a recording qualifier"
+    },
+    {
+      "a": "Money",
+      "b": "Money For Nothing",
+      "verdict": "different",
+      "why": "shares a word, different song"
+    },
+    {
+      "a": "Ich & Du",
+      "b": "Ich und Du",
+      "verdict": "same",
+      "why": "ampersand versus the German word"
+    },
+    {
+      "a": "Hotel California - Live",
+      "b": "Hotel California",
+      "verdict": "different",
+      "why": "trailing dash qualifier, not a bracket"
+    },
+    {
+      "a": "One",
+      "b": "One (Radio Edit)",
+      "verdict": "different",
+      "why": "radio edits are shorter recordings"
+    },
+    {
+      "a": "Zu Ende",
+      "b": "Zu Ende (prod. by Lucry)",
+      "verdict": "same",
+      "why": "producer credit is not a qualifier"
+    },
+    {
+      "a": "Comfortably Numb",
+      "b": "Comfortably Numb (Live at Earls Court)",
+      "verdict": "different",
+      "why": "live venue qualifier"
+    },
+    {
+      "a": "Sun Green (Part 1)",
+      "b": "Sun Green",
+      "verdict": "different",
+      "why": "the album track covers both parts and satisfies neither entry alone"
+    },
+    {
+      "a": "ZUN9A",
+      "b": "Zunga",
+      "verdict": "uncertain",
+      "why": "leetspeak stylisation; a matcher should not guess either way"
+    },
+    {
+      "a": "Ghetto Superstars",
+      "b": "Ghetto Superstar",
+      "verdict": "uncertain",
+      "why": "off by one letter, plausibly a typo and plausibly two songs"
+    }
+  ],
+
+  "filenames": [
+    {"file": "Samra - Jibrail & Iblis - 01 - 95 BPM.flac", "title": "95 BPM"},
+    {"file": "Samra - Jibrail & Iblis - 22 - 365 Tage.flac", "title": "365 Tage"},
+    {"file": "04 - Bohemian Rhapsody.mp3", "title": "Bohemian Rhapsody"},
+    {"file": "Neil Young - Freedom - 01 - Rockin' in the Free World.flac",
+     "title": "Rockin' in the Free World"},
+    {"file": "01. Intro.flac", "title": "Intro"},
+    {"file": "Weiße Orchideen.flac", "title": "Weiße Orchideen"},
+    {"file": "Artist - Album - 05 - Song [FLAC-16bit].flac", "title": "Song"},
+    {"file": "1995.flac", "title": "1995"},
+    {"file": "10 - 1995.flac", "title": "1995"}
+  ]
+}
