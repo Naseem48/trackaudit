@@ -18,20 +18,47 @@ what is genuinely missing.
 ```
 $ trackaudit --library /mnt/music --lidarr http://localhost:8686 --lidarr-key $KEY
 
-library: 3,723 file(s), 8 artist folder(s)
+library: 3783 file(s), 41 artist folder(s)
 
-  ghost                 1     on disk, the app has no record of it
-  orphan                7     on disk, no entry in the app
-  duplicate_entry      28     two entries competing for one recording
-  invisible           229     released, and the app cannot even show it to you
-  lossy_duplicate      38     lossy copy beside a lossless one
+  orphan             26     on disk, no entry in the app
+  duplicate_entry    11     two entries competing for one recording
+  invisible        1055     released, and the app cannot even show it to you
+  missing            44     in the catalogue, not on disk
+  filed_elsewhere    72     filed under whoever was credited first
+  lossy_duplicate    38     lossy copy beside a lossless one
+  uncertain_match     6     too close to call, so nothing was decided
 
 report: trackaudit-report.html
 ```
 
-That `invisible: 229` is the number no other tool will give you. Those are real,
-released recordings by artists you already follow, and your library manager has
-never heard of a single one of them.
+**[Read that report.](https://naseem48.github.io/trackaudit/)** It is the actual
+output of the run above against a real, actively-used library — not a mockup.
+The only change made for publication was shortening filesystem paths.
+
+That `invisible: 1055` is the number no other tool will give you: recordings
+that were genuinely released and that the library manager has no entry for at
+all, so it cannot even list them as missing.
+
+Read it honestly, though, because the composition matters more than the total.
+637 of those 1,055 are live takes, remasters and alternate versions, and they
+belong almost entirely to two artists with deep archive catalogues. The
+remaining 418 are distinct recordings.
+
+The split is where the real argument lives. For the English-language artists in
+that library, "invisible" is mostly a long tail of live albums — nice to know
+about, hardly a crisis. For the German rap artists it inverts completely:
+
+| artist | live/alternate | distinct recordings |
+|---|---|---|
+| Neil Young | 437 | 107 |
+| ZZ Top | 151 | 14 |
+| Capital Bra | 1 | **75** |
+| Sido | 30 | **156** |
+| AK Ausserkontrolle | 0 | **21** |
+
+Capital Bra has 75 distinct recordings that Lidarr cannot represent, against a
+single live variant. That is the blind spot this tool exists to make visible,
+and no amount of rescanning will ever surface it.
 
 ---
 
